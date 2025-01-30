@@ -63,7 +63,6 @@ def scrape_clients():
         wired_users = []
         for data_row in all_data:
             if len(data_row) > 7:
-                #print(data_row)
                 user_name = data_row[2]
                 access_time = data_row[8]
                 client_type = data_row[9]
