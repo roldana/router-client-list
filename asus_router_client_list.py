@@ -33,6 +33,12 @@ def scrape_clients():
         # Click sign in button
         page.click('[value="Sign In"]')
         page.wait_for_load_state("networkidle")  # Wait for navigation
+        
+        if page.is_visible('#error_status_field'):
+            error_text = page.query_selector('#error_status_field').inner_text()
+            print(f'Login failed: {error_text}')
+            browser.close()
+            return
 
         # Click client list view button
         page.click('[onclick="pop_clientlist_listview(true)"]')
