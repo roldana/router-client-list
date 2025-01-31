@@ -26,6 +26,12 @@ def scrape_clients():
             browser.close()
             return
 
+        # If Captcha active, print and exit
+        if page.is_visible('#captcha_input_div'):
+            print('Unable to log in: Captcha is required')
+            browser.close()
+            return
+
         # Enter login info
         page.type('#login_username', ROUTER_USER)
         page.type('[name="login_passwd"]', ROUTER_PASS)
@@ -34,8 +40,9 @@ def scrape_clients():
         page.click('[value="Sign In"]')
         page.wait_for_load_state("networkidle")  # Wait for navigation
         
-        if page.is_visible('#error_status_field'):
-            error_text = page.query_selector('#error_status_field').inner_text()
+        # If error status visible, print error text and close
+        if page.is_visible('.error_hint'):
+            error_text = page.query_selector('.error_hint').inner_text()
             print(f'Login failed: {error_text}')
             browser.close()
             return
