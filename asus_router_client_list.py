@@ -19,6 +19,13 @@ def scrape_clients():
         # Navigate to the given URL
         page.goto(ROUTER_LOGIN_URL)
 
+        # If Sign In not visible, print display text and close
+        if not page.is_visible('[value="Sign In"]'):
+            nologin_text = page.query_selector('.nologin').inner_text()
+            print(f'Unable to log in: {nologin_text}')
+            browser.close()
+            return
+
         # Enter login info
         page.type('#login_username', ROUTER_USER)
         page.type('[name="login_passwd"]', ROUTER_PASS)
