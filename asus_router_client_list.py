@@ -3,7 +3,7 @@ import json
 import os
 from find_router_ip import find_router_ip
 
-def load_credentials(file_path):
+def load_config(file_path):
     with open(file_path, 'r') as f:
         return json.load(f)
 
@@ -11,14 +11,15 @@ def time_to_seconds(t):
     h, m, s = map(int, t.split(':'))
     return h * 3600 + m * 60 + s
 
-def scrape_clients():
+def scrape_clients(router_ip):
     with sync_playwright() as p:
         # Configuration for launching the browser
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
-        # Navigate to the given URL
-        page.goto(ROUTER_LOGIN_URL)
+        # Navigate to the router login URL
+        router_login_url = f"http://{router_ip}{ROUTER_LOGIN_PAGE}"
+        page.goto(router_login_url)
 
         # If Sign In not visible, print display text and close
         if not page.is_visible('[value="Sign In"]'):
@@ -107,17 +108,19 @@ def scrape_clients():
         # Cleanup
         browser.close()
 
+# Load config and credentials
 working_dir = os.getcwd()
-config = load_credentials(f'{working_dir}/credentials/router.json')
+config = load_config(f'{working_dir}/credentials/router.json')
 ROUTER_USER = config['ROUTER_USER']
 ROUTER_PASS = config['ROUTER_PASS']
 ROUTER_LOGIN_URL = config['LOGIN_URL']
+ROUTER_LOGIN_PAGE = config['LOGIN_PAGE']
 
 # Find router IP address
 router_ip = find_router_ip()
 if router_ip:
     print(f"Router IP address found: {router_ip}")
     # Run the scraper function with router IP found
-    scrape_clients()
+    scrape_clients(router_ip)
 else:
     print("Router IP address could not be determined")
