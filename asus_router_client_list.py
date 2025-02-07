@@ -1,6 +1,7 @@
 from playwright.sync_api import sync_playwright
 import json
 import os
+from find_router_ip import find_router_ip
 
 def load_credentials(file_path):
     with open(file_path, 'r') as f:
@@ -112,5 +113,11 @@ ROUTER_USER = config['ROUTER_USER']
 ROUTER_PASS = config['ROUTER_PASS']
 ROUTER_LOGIN_URL = config['LOGIN_URL']
 
-# Run the scraper function
-scrape_clients()
+# Find router IP address
+router_ip = find_router_ip()
+if router_ip:
+    print(f"Router IP address found: {router_ip}")
+    # Run the scraper function with router IP found
+    scrape_clients()
+else:
+    print("Router IP address could not be determined")
