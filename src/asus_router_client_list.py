@@ -104,9 +104,9 @@ def scrape_clients(router_ip):
 
 # Load config and credentials
 working_dir = os.getcwd()
-config = load_config(f'{working_dir}/router.json')
-ROUTER_USER = config['ROUTER_USER']
-ROUTER_PASS = config['ROUTER_PASS']
+# config = load_config(f'{working_dir}/router.json')
+ROUTER_USER = os.getenv('ROUTER_USER')
+ROUTER_PASS = os.getenv('ROUTER_PASS')
 ROUTER_LOGIN_PAGE = '/Main_Login.asp'
 
 # Find router IP address
