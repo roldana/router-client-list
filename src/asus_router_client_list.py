@@ -103,14 +103,15 @@ def scrape_clients(router_ip):
         browser.close()
 
 # Load config and credentials
-working_dir = os.getcwd()
+# working_dir = os.getcwd()
 # config = load_config(f'{working_dir}/router.json')
 ROUTER_USER = os.getenv('ROUTER_USER')
 ROUTER_PASS = os.getenv('ROUTER_PASS')
 ROUTER_LOGIN_PAGE = '/Main_Login.asp'
 
 # Find router IP address
-router_ip = find_router_ip()
+# router_ip = find_router_ip()
+router_ip = '192.168.1.1'
 if router_ip:
     print(f"Router IP address found: {router_ip}")
     # Run the scraper function with router IP found

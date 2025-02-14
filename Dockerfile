@@ -26,25 +26,20 @@ RUN apt-get update \
        fonts-liberation \
        libgtk-3-0 \
        libx11-xcb1 \
+       g++ \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy project files to the working directory
 COPY . /app/
 
 # Install Python dependencies (including Playwright)
-RUN pip install --no-cache-dir playwright
-
-RUN pip install --no-cache-dir requests
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Install Playwright browsers (e.g., Chromium)
 RUN playwright install --with-deps chromium
 
 # Install iproute2 for the `ip` command and other dependencies
 RUN apt-get update && apt-get install -y iproute2 && apt-get clean
-
-# Set environment variables
-ENV ROUTER_USER=${ROUTER_USER}
-ENV ROUTER_PASS=${ROUTER_PASS}
 
 # Set the command to run your Python script
 CMD ["python", "src/asus_router_client_list.py"]
