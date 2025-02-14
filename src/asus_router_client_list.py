@@ -71,16 +71,10 @@ def scrape_clients(router_ip):
 
             row_data = [td.inner_text() for td in tds]
 
-             # Extract the title property of the "clientIcon_no_hover" div
-            # client_type = [tds[2].query_selector('.clientIcon_no_hover').get_attribute('title')]
-            # print(client_type)
-
             row_data.append(client_title)
 
             all_data.append(row_data)
 
-
-        user_list = []
         wireless_users = []
         wired_users = []
         for data_row in all_data:
@@ -110,11 +104,10 @@ def scrape_clients(router_ip):
 
 # Load config and credentials
 working_dir = os.getcwd()
-config = load_config(f'{working_dir}/credentials/router.json')
+config = load_config(f'{working_dir}/router.json')
 ROUTER_USER = config['ROUTER_USER']
 ROUTER_PASS = config['ROUTER_PASS']
-ROUTER_LOGIN_URL = config['LOGIN_URL']
-ROUTER_LOGIN_PAGE = config['LOGIN_PAGE']
+ROUTER_LOGIN_PAGE = '/Main_Login.asp'
 
 # Find router IP address
 router_ip = find_router_ip()
@@ -123,4 +116,4 @@ if router_ip:
     # Run the scraper function with router IP found
     scrape_clients(router_ip)
 else:
-    print("Router IP address could not be determined")
+    print("Router IP address not found")
