@@ -108,9 +108,12 @@ def scrape_clients(router_ip):
 ROUTER_USER = os.getenv('ROUTER_USER')
 ROUTER_PASS = os.getenv('ROUTER_PASS')
 ROUTER_IP = os.getenv('ROUTER_IP')
+AUTO_FIND_ROUTER_IP = os.getenv('AUTO_FIND_ROUTER_IP')
 ROUTER_LOGIN_PAGE = '/Main_Login.asp'
 
 # Find router IP address
-# router_ip = find_router_ip()
-router_ip=ROUTER_IP
+if AUTO_FIND_ROUTER_IP:
+    router_ip = find_router_ip()
+else:
+    router_ip = ROUTER_IP
 scrape_clients(router_ip)
