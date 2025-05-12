@@ -94,7 +94,7 @@ def scrape_clients(router_ip):
         sorted_wireless_users = sorted(wireless_users, key=lambda x: time_to_seconds(x["access_time"]))  
         sorted_users = sorted_wireless_users + wired_users
 
-        # Get number of clients
+        # Get number of connected clients
         number_clients_connected = len(sorted_users)
 
         # Print client list
@@ -106,8 +106,6 @@ def scrape_clients(router_ip):
         browser.close()
 
 # Load config and credentials
-# working_dir = os.getcwd()
-# config = load_config(f'{working_dir}/router.json')
 ROUTER_USER = os.getenv('ROUTER_USER')
 ROUTER_PASS = os.getenv('ROUTER_PASS')
 ROUTER_IP = os.getenv('ROUTER_IP')
