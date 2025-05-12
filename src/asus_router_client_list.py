@@ -94,8 +94,11 @@ def scrape_clients(router_ip):
         sorted_wireless_users = sorted(wireless_users, key=lambda x: time_to_seconds(x["access_time"]))  
         sorted_users = sorted_wireless_users + wired_users
 
+        # Get number of clients
+        number_clients_connected = len(sorted_users)
+
         # Print client list
-        print('Client list:')
+        print(f'{number_clients_connected} clients connected:')
         for user in sorted_users:
             print(f'{user["user_name"][:20]:<20} {user["access_time"]:9} {user["client_type"]}')
 
